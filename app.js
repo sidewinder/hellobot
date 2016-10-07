@@ -47,7 +47,8 @@ intents.matches(/^tell me about/i, [
         }
     },
     function (session, results) {
-        request(wikipediaEnd + 'batman', function (error, response, body) {
+        var topic = results.response;
+        request(wikipediaEnd + topic, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var resultJson = JSON.parse(body);
                 var mapped = Object.keys( resultJson.query.pages  ).map(function( uid ){

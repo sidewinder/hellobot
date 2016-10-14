@@ -40,15 +40,7 @@ bot.dialog('/', intents);
 intents.matches('FindTopic',[
     function (session, args, next) {        
         var topic = builder.EntityRecognizer.findEntity(args.entities, 'Topic');
-        if(!topic) {
-            if (!session.userData.name) {
-                session.beginDialog('/profile');
-            } else {
-                session.send('Hello %s!, please ask me about a topic to help you.', session.userData.name);
-            }
-        } else {
-            next({ response: topic.entity });
-        }        
+         next({ response: topic.entity });        
     },
     function (session, result) {        
                 request(wikipediaEnd + result.response, function (error, response, body) {
@@ -57,6 +49,7 @@ intents.matches('FindTopic',[
                         var mapped = Object.keys( resultJson.query.pages  ).map(function( uid ){
                             return (resultJson.query.pages[uid ].uid = uid ) && resultJson.query.pages[uid ];
                         });
+                        console.log(mapped);
                         var article = mapped[0].extract;                
                         var answer = 'Ok... ' + session.userData.name + ', I found this on wikipedia : ' + article;                                            
                         session.send(answer);
@@ -64,6 +57,19 @@ intents.matches('FindTopic',[
                         session.send("Ooops :P, Something went wrong, please try again.")                        
                     }           
                });
+    }
+]);
+
+intents.matches('Hi',[
+    function (session, args, next) {
+        if (!session.userData.name) {
+            session.beginDialog('/profile');
+        } else {
+            next();
+        }
+    },
+    function (session, results) {
+        session.send('Hello %s!', session.userData.name);
     }
 ]);
 

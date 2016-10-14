@@ -86,7 +86,7 @@ bot.dialog('/profile', [
 
 intents.matches('Help',[    
     function (session, results) {
-        session.send('Of course I can help you %s, Please ask me any topic you would like to know and I will search on the internet for you. For example: "What about water?", or "Where is paris?. :-)"', session.userData.name);
+        session.send('Of course I can help you :) %s, Please ask me any topic you would like to know and I will search on the internet for you. For example: "What about water?", or "Where is paris?. :-)"', session.userData.name);
     }
 ]);
 

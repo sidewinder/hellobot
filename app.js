@@ -62,6 +62,7 @@ intents.matches('FindTopic',[
 
 intents.matches('Hi',[
     function (session, args, next) {
+        session.send('Hello my name is hellobot, I can help you to search info from the web. Please ask me any topic to help you.');
         if (!session.userData.name) {
             session.beginDialog('/profile');
         } else {
@@ -74,13 +75,18 @@ intents.matches('Hi',[
 ]);
 
 bot.dialog('/profile', [
-    function (session) {
-        session.send('Hello my name is hellobot, I can help you to search info from the web. Please ask me any topic to help you.');
+    function (session) {        
         builder.Prompts.text(session, 'But First, What is your name?');
     },
     function (session, results) {
         session.userData.name = results.response;
         session.endDialog();
+    }
+]);
+
+intents.matches('Help',[    
+    function (session, results) {
+        session.send('Of course I can help you %s, Please ask me any topic you would like to know and I will search on the internet for you. For example: "What about water?", or "Where is paris?. :-)"', session.userData.name);
     }
 ]);
 
